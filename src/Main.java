@@ -30,6 +30,8 @@ public class Main {
                             ("dd/MM/yyyy HH:mm:ss");
 
         System.out.println(currentDateTime.format(formatterDateTime));
+        //System.out.println(formatter2.format(calendar.getTime()));
+
         System.out.println("Month: " + currentDateTime.getMonth());
         System.out.println("Week of year: " + Calendar.WEEK_OF_YEAR);
         System.out.println("Day of month: " + currentDateTime.getDayOfMonth());
@@ -44,6 +46,8 @@ public class Main {
         isAfterSalary(calendar);
 
         whatPartOfYear(calendar);
+
+
 
     }
 
@@ -140,7 +144,7 @@ public class Main {
         }
 
         // check if Christmas
-        if (cal.get(Calendar.MONTH) == Calendar.DECEMBER
+        if(cal.get(Calendar.MONTH) == Calendar.DECEMBER
                 && cal.get(Calendar.DAY_OF_MONTH) > 24
                 && cal.get(Calendar.DAY_OF_MONTH) < 26) {
             return false;
@@ -151,7 +155,7 @@ public class Main {
     }
 
     public static void isAfterSalary(Calendar cal){
-        if(cal.DAY_OF_MONTH > 10){
+        if(cal.get(Calendar.DAY_OF_MONTH) > 10){
             System.out.println("After salary.");
         }
         else{
@@ -159,22 +163,33 @@ public class Main {
         }
     }
 
+    /*
+     Wiosna (92-93 dni) 20 marca (rzadziej 21 marca) i trwa do początku lata
+     Lato (92-93 dni) zaczyna się 21 czerwca (rzadziej 20 czerwca) i trwa do początku jesieni
+     Jesień (89-90 dni) zaczyna się 22 lub 23 września i trwa do początku zimy
+     Zima (88-89 dni) zaczyna się 21 lub 22 grudnia i trwa do początku wiosny
+     */
     public static void whatPartOfYear(Calendar cal){
-        if((cal.MONTH == 12 && cal.DAY_OF_MONTH >= 22)
-            || (cal.MONTH <=3 && cal.DAY_OF_MONTH <=20)){
+        //testing
+        cal.set(2020, Calendar.JUNE, 30, 4, 15, 20);
+
+        if(((cal.get(Calendar.MONTH) == Calendar.DECEMBER) && (cal.get(Calendar.DAY_OF_MONTH) >= 21))
+                || ((cal.get(Calendar.MONTH) <= Calendar.MARCH) && (cal.get(Calendar.DAY_OF_MONTH) < 20))){
             System.out.println("WINTER.");
         }
-        else if((cal.MONTH >= 3 && cal.DAY_OF_MONTH > 20)
-                || (cal.MONTH <=6 && cal.DAY_OF_MONTH <=20)){
+        else if(((cal.get(Calendar.MONTH) >= Calendar.MARCH) && (cal.get(Calendar.DAY_OF_MONTH) >= 20))
+                && ((cal.get(Calendar.MONTH) <= Calendar.JUNE) && (cal.get(Calendar.DAY_OF_MONTH) < 21))) {
             System.out.println("SPRING.");
         }
-        else if((cal.MONTH >= 3 && cal.DAY_OF_MONTH > 20)
-                || (cal.MONTH <=6 && cal.DAY_OF_MONTH <=20)){
-            System.out.println("SPRING.");
-        }
-        else if((cal.MONTH >= 6 && cal.DAY_OF_MONTH > 20)
-                || (cal.MONTH <=9 && cal.DAY_OF_MONTH <=23)){
+        else if(((cal.get(Calendar.MONTH) >= Calendar.JUNE) && (cal.get(Calendar.DAY_OF_MONTH) >= 21))
+                && ((cal.get(Calendar.MONTH) <= Calendar.SEPTEMBER) && (cal.get(Calendar.DAY_OF_MONTH) < 23))) {
             System.out.println("SUMMER.");
         }
+        else if(((cal.get(Calendar.MONTH) >= Calendar.SEPTEMBER) && (cal.get(Calendar.DAY_OF_MONTH) >= 23))
+                && ((cal.get(Calendar.MONTH) <= Calendar.DECEMBER) && (cal.get(Calendar.DAY_OF_MONTH) < 21))){
+            System.out.println("AUTUMN.");
+        }
     }
+
+
 }
