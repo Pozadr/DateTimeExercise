@@ -26,17 +26,13 @@ public class Main {
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalTime currentTime = currentDateTime.toLocalTime();
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat formatter2 = new SimpleDateFormat
-                            ("dd/MM/yyyy HH:mm:ss");
 
         System.out.println(currentDateTime.format(formatterDateTime));
-        //System.out.println(formatter2.format(calendar.getTime()));
 
         System.out.println("Month: " + currentDateTime.getMonth());
         System.out.println("Week of year: " + Calendar.WEEK_OF_YEAR);
         System.out.println("Day of month: " + currentDateTime.getDayOfMonth());
-
-        System.out.println();
+        System.out.println("Part of year: " + whatPartOfYear(calendar));
         whatPartOfDay(currentTime);
 
         String text = isBusinessDay(calendar) ? "It's business day."
@@ -44,10 +40,6 @@ public class Main {
         System.out.println(text);
 
         isAfterSalary(calendar);
-
-        whatPartOfYear(calendar);
-
-
 
     }
 
@@ -159,36 +151,33 @@ public class Main {
             System.out.println("After salary.");
         }
         else{
-            System.out.println("Before salery.");
+            System.out.println("Before salary.");
         }
     }
 
-    /*
-     Wiosna (92-93 dni) 20 marca (rzadziej 21 marca) i trwa do początku lata
-     Lato (92-93 dni) zaczyna się 21 czerwca (rzadziej 20 czerwca) i trwa do początku jesieni
-     Jesień (89-90 dni) zaczyna się 22 lub 23 września i trwa do początku zimy
-     Zima (88-89 dni) zaczyna się 21 lub 22 grudnia i trwa do początku wiosny
-     */
-    public static void whatPartOfYear(Calendar cal){
-        //testing
-        cal.set(2020, Calendar.JUNE, 30, 4, 15, 20);
+    public static String whatPartOfYear(Calendar cal){
 
-        if(((cal.get(Calendar.MONTH) == Calendar.DECEMBER) && (cal.get(Calendar.DAY_OF_MONTH) >= 21))
-                || ((cal.get(Calendar.MONTH) <= Calendar.MARCH) && (cal.get(Calendar.DAY_OF_MONTH) < 20))){
-            System.out.println("WINTER.");
+        if(cal.get(Calendar.MONTH) == Calendar.DECEMBER && cal.get(Calendar.DAY_OF_MONTH) >= 21
+                ||cal.get(Calendar.MONTH) == Calendar.MARCH && cal.get(Calendar.DAY_OF_MONTH) < 20
+                || cal.get(Calendar.MONTH) < Calendar.MARCH){
+                return "WINTER.";
         }
-        else if(((cal.get(Calendar.MONTH) >= Calendar.MARCH) && (cal.get(Calendar.DAY_OF_MONTH) >= 20))
-                && ((cal.get(Calendar.MONTH) <= Calendar.JUNE) && (cal.get(Calendar.DAY_OF_MONTH) < 21))) {
-            System.out.println("SPRING.");
+        else if(cal.get(Calendar.MONTH) == Calendar.MARCH && cal.get(Calendar.DAY_OF_MONTH) >= 20
+                || cal.get(Calendar.MONTH) == Calendar.JUNE && cal.get(Calendar.DAY_OF_MONTH) < 21
+                || cal.get(Calendar.MONTH) > Calendar.MARCH && cal.get(Calendar.MONTH) < Calendar.JUNE) {
+                return "SPRING.";
         }
-        else if(((cal.get(Calendar.MONTH) >= Calendar.JUNE) && (cal.get(Calendar.DAY_OF_MONTH) >= 21))
-                && ((cal.get(Calendar.MONTH) <= Calendar.SEPTEMBER) && (cal.get(Calendar.DAY_OF_MONTH) < 23))) {
-            System.out.println("SUMMER.");
+        else if(cal.get(Calendar.MONTH) == Calendar.JUNE && cal.get(Calendar.DAY_OF_MONTH) >= 21
+                || cal.get(Calendar.MONTH) == Calendar.SEPTEMBER && cal.get(Calendar.DAY_OF_MONTH) < 23
+                || cal.get(Calendar.MONTH) > Calendar.JUNE && cal.get(Calendar.MONTH) < Calendar.SEPTEMBER) {
+                return "SUMMER.";
         }
-        else if(((cal.get(Calendar.MONTH) >= Calendar.SEPTEMBER) && (cal.get(Calendar.DAY_OF_MONTH) >= 23))
-                && ((cal.get(Calendar.MONTH) <= Calendar.DECEMBER) && (cal.get(Calendar.DAY_OF_MONTH) < 21))){
-            System.out.println("AUTUMN.");
+        else if(cal.get(Calendar.MONTH) == Calendar.SEPTEMBER && cal.get(Calendar.DAY_OF_MONTH) >= 23
+                || cal.get(Calendar.MONTH) == Calendar.DECEMBER && cal.get(Calendar.DAY_OF_MONTH) < 21
+                || cal.get(Calendar.MONTH) > Calendar.SEPTEMBER && cal.get(Calendar.MONTH) < Calendar.DECEMBER) {
+                return "AUTUMN.";
         }
+        return "Fault";
     }
 
 
