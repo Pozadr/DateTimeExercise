@@ -15,13 +15,14 @@
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class MyCalendar {
     DateTimeFormatter formatter
             = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-    private LocalDateTime currentDateTime = LocalDateTime.parse("2020-08-06T19:34:50.63", formatter);
+    private LocalDateTime currentDateTime = LocalDateTime.parse("2022-02-20T19:34:50.63", formatter);
     private LocalTime currentTime = currentDateTime.toLocalTime();
     private Calendar calendar = Calendar.getInstance();
 
@@ -50,6 +51,7 @@ public class MyCalendar {
         g = yy + (yy / 4);
         result = (((((c / 100) % 4) * 5) + g) % 7);
         result += daysFromBeginningOfYear[month-1];
+        // February 28 or 29 days
         if((month > 2) && ((year % 4 == 0  &&  year % 100 != 0) || year % 400 == 0)){
             result++;
         }
@@ -70,13 +72,26 @@ public class MyCalendar {
         for(int i=0; i<20; i++){
             System.out.print("-");
         }
+
         // Calendar rows
         // dayOfMonth for display in loop, 'j' is a pointer for display in console
+        // bug in library for February
+        int daysInMonth;
+        if(currentDateTime.getMonth() == Month.FEBRUARY){
+            daysInMonth = 28;
+            int year = currentDateTime.getYear();
+            if((year % 4 == 0  &&  year % 100 != 0 || year % 400 == 0)){
+                daysInMonth++;
+            }
+        }
+        else{
+            daysInMonth = getHowManyDaysInMonth();
+        }
+
         int dayOfMonth = 1;
-        int daysInMonth = getHowManyDaysInMonth();
-        System.out.println(); // new line
         int pointerFirstDayOfMonth = getPointerFirstDayOfMonth();
         int numberOfLoops = pointerFirstDayOfMonth + daysInMonth - 1;
+        System.out.println(); // new line
         for(int j=1; j<=numberOfLoops;j++){
             if(j < pointerFirstDayOfMonth){
                 System.out.print("   ");
