@@ -40,6 +40,7 @@ public class MyCalendar {
         return currentTime;
     }
 
+    // Class getters
     private int getPointerFirstDayOfMonth() {
         /*
         Algorithm based on:
