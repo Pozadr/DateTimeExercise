@@ -19,8 +19,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class MyCalendar {
-
-    private LocalDateTime currentDateTime = LocalDateTime.now();
+    DateTimeFormatter formatter
+            = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    private LocalDateTime currentDateTime = LocalDateTime.parse("2020-08-06T19:34:50.63", formatter);
     private LocalTime currentTime = currentDateTime.toLocalTime();
     private Calendar calendar = Calendar.getInstance();
 
@@ -32,10 +33,103 @@ public class MyCalendar {
     public LocalTime getCurrentTime() {
         return currentTime;
     }
+    public int getPointerFirstDayOfMonth() {
+        /*
+        Algorithm based on:
+        http://www.algorytm.org/przetwarzanie-dat/wyznaczanie-dnia-tygodnia/dzien-tyg-j.html
+         */
+        int month = currentDateTime.getMonthValue();
+        int year = currentDateTime.getYear();
+        int daysFromBeginningOfYear[] =
+                {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
+        int yy, c, g;
+        int result;
 
+        yy = (year - 1) % 100;
+        c = (year - 1) - yy;
+        g = yy + (yy / 4);
+        result = (((((c / 100) % 4) * 5) + g) % 7);
+        result += daysFromBeginningOfYear[month-1];
+        if((month > 2) && ((year % 4 == 0  &&  year % 100 != 0) || year % 400 == 0)){
+            result++;
+        }
+        result %= 7;
+        result+=1; // because of displayCalendar for loop counts from 1
+        return result;
+    }
     // display
+    public void displayCalendar(){
+        String[] daysOfWeek = {" Pn ", "Wt ", "Sr ", "Cz ", "Pt ", "Sb ", "Nd "};
+        // 1st row
+        for(String day : daysOfWeek){
+            System.out.print(day);
+        }
+        // 2nd row
+        System.out.println();
+        System.out.print(" ");
+        for(int i=0; i<20; i++){
+            System.out.print("-");
+        }
+        // Calendar rows
+        // dayOfMonth for display in loop, 'j' is a pointer for display in console
+        int dayOfMonth = 1;
+        int daysInMonth = getHowManyDaysInMonth();
+        System.out.println(); // new line
+        int pointerFirstDayOfMonth = getPointerFirstDayOfMonth();
+        int numberOfLoops = pointerFirstDayOfMonth + daysInMonth - 1;
+        for(int j=1; j<=numberOfLoops;j++){
+            if(j < pointerFirstDayOfMonth){
+                System.out.print("   ");
+                continue;
+            }
+            // display in console formatting for 1-10
+            if( dayOfMonth < 10){
+                if(dayOfMonth == currentDateTime.getDayOfMonth()){
+                    System.out.print(" [" + dayOfMonth + "]");
+                }
+                else if(dayOfMonth == currentDateTime.getDayOfMonth()+1){
+                    System.out.print(" " + dayOfMonth);
+                }
+                else{
+                    System.out.print("  " + dayOfMonth);
+                }
+            }
+            // display in console formatting for 10-31
+            else{
+                if(dayOfMonth == currentDateTime.getDayOfMonth()){
+                    System.out.print("[" + dayOfMonth + "]");
+                }
+                else if(dayOfMonth == currentDateTime.getDayOfMonth()+1){
+                    System.out.print(dayOfMonth);
+                }
+                else{
+                    System.out.print(" " + dayOfMonth);
+                }            }
+            // end of line after 7 days in a row
+            if(j %7 == 0){
+                System.out.println();
+            }
+            dayOfMonth++;
+        }
+    }
+
+    public int getHowManyDaysInMonth(){
+        if(currentDateTime.getMonthValue() == 1
+                || currentDateTime.getMonthValue() == 3
+                || currentDateTime.getMonthValue() == 5
+                || currentDateTime.getMonthValue() == 7
+                || currentDateTime.getMonthValue() == 8
+                || currentDateTime.getMonthValue() == 10
+                ||currentDateTime.getMonthValue() == 12){
+            return 31;
+        }
+        else{
+            return 30;
+        }
+    }
+
     public void displayDetails(){
-        DateTimeFormatter formatterDateTime = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        DateTimeFormatter formatterDateTime = DateTimeFormatter.ofPattern("\n\ndd/MM/yyyy HH:mm:ss");
 
         System.out.println(currentDateTime.format(formatterDateTime));
 

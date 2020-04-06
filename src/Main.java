@@ -1,10 +1,14 @@
 public class Main {
-    static public void main(String[] args){
+    static public void main(String[] args) {
         // Exercise Calendar
         MyCalendar myCalendar = new MyCalendar();
-        myCalendar.displayDetails();
+        myCalendar.displayCalendar();
 
-        Loops loopsExercises = new Loops();
-        loopsExercises.displayNumbers();
-        loopsExercises.displayDateTimeLoop(myCalendar.getCurrentTime());    }
+        //myCalendar.displayDetails();
+
+
+        //Loops loopsExercises = new Loops();
+        //loopsExercises.displayNumbers();
+        //loopsExercises.displayDateTimeLoop(myCalendar.getCurrentTime());
+    }
 }
