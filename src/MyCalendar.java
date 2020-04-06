@@ -22,7 +22,12 @@ import java.util.Calendar;
 public class MyCalendar {
     DateTimeFormatter formatter
             = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-    private LocalDateTime currentDateTime = LocalDateTime.parse("2022-02-20T19:34:50.63", formatter);
+    /* TEST
+    private LocalDateTime currentDateTime =
+            LocalDateTime.parse("2020-02-19T19:34:50.63", formatter);
+     */
+    private LocalDateTime currentDateTime = LocalDateTime.now();
+
     private LocalTime currentTime = currentDateTime.toLocalTime();
     private Calendar calendar = Calendar.getInstance();
 
@@ -62,18 +67,19 @@ public class MyCalendar {
     // display
     public void displayCalendar(){
         String[] daysOfWeek = {" Pn ", "Wt ", "Sr ", "Cz ", "Pt ", "Sb ", "Nd "};
-        // 1st row
+        System.out.println(currentDateTime.getMonth());
+        // 1st row of calendar
         for(String day : daysOfWeek){
             System.out.print(day);
         }
-        // 2nd row
+        // 2nd row of calendar
         System.out.println();
         System.out.print(" ");
         for(int i=0; i<20; i++){
             System.out.print("-");
         }
 
-        // Calendar rows
+        // Days rows
         // dayOfMonth for display in loop, 'j' is a pointer for display in console
         // bug in library for February
         int daysInMonth;
@@ -102,7 +108,8 @@ public class MyCalendar {
                 if(dayOfMonth == currentDateTime.getDayOfMonth()){
                     System.out.print(" [" + dayOfMonth + "]");
                 }
-                else if(dayOfMonth == currentDateTime.getDayOfMonth()+1){
+                else if(dayOfMonth == currentDateTime.getDayOfMonth()+1
+                        && ((j-1)%7 != 0)){
                     System.out.print(" " + dayOfMonth);
                 }
                 else{
@@ -114,7 +121,8 @@ public class MyCalendar {
                 if(dayOfMonth == currentDateTime.getDayOfMonth()){
                     System.out.print("[" + dayOfMonth + "]");
                 }
-                else if(dayOfMonth == currentDateTime.getDayOfMonth()+1){
+                else if(dayOfMonth == currentDateTime.getDayOfMonth()+1
+                    && ((j-1)%7 != 0)){
                     System.out.print(dayOfMonth);
                 }
                 else{
