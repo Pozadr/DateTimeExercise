@@ -3,8 +3,7 @@ public class Main {
         // Exercise Calendar
         MyCalendar myCalendar = new MyCalendar();
         myCalendar.displayCalendar();
-
-        //myCalendar.displayDetails();
+        myCalendar.displayDetails();
 
 
         //Loops loopsExercises = new Loops();

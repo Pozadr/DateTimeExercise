@@ -15,7 +15,6 @@
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
@@ -24,8 +23,9 @@ public class MyCalendar {
             = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     /* TEST
     private LocalDateTime currentDateTime =
-            LocalDateTime.parse("2020-02-19T19:34:50.63", formatter);
+            LocalDateTime.parse("2020-02-23T19:34:50.63", formatter);
      */
+
     private LocalDateTime currentDateTime = LocalDateTime.now();
 
     private LocalTime currentTime = currentDateTime.toLocalTime();
@@ -39,7 +39,8 @@ public class MyCalendar {
     public LocalTime getCurrentTime() {
         return currentTime;
     }
-    public int getPointerFirstDayOfMonth() {
+
+    private int getPointerFirstDayOfMonth() {
         /*
         Algorithm based on:
         http://www.algorytm.org/przetwarzanie-dat/wyznaczanie-dnia-tygodnia/dzien-tyg-j.html
@@ -64,6 +65,33 @@ public class MyCalendar {
         result+=1; // because of displayCalendar for loop counts from 1
         return result;
     }
+
+    private int getHowManyDaysInMonth(){
+        if(currentDateTime.getMonthValue() == 1
+                || currentDateTime.getMonthValue() == 3
+                || currentDateTime.getMonthValue() == 5
+                || currentDateTime.getMonthValue() == 7
+                || currentDateTime.getMonthValue() == 8
+                || currentDateTime.getMonthValue() == 10
+                ||currentDateTime.getMonthValue() == 12){
+            return 31;
+        }
+        // FEBRUARY
+        else if(currentDateTime.getMonthValue() == 2){
+            int year = currentDateTime.getYear();
+            if((year % 4 == 0  &&  year % 100 != 0 || year % 400 == 0)){
+                return 29;
+            }
+            else{
+                return 28;
+            }
+        }
+
+        else{
+            return 30;
+        }
+    }
+
     // display
     public void displayCalendar(){
         String[] daysOfWeek = {" Pn ", "Wt ", "Sr ", "Cz ", "Pt ", "Sb ", "Nd "};
@@ -78,22 +106,9 @@ public class MyCalendar {
         for(int i=0; i<20; i++){
             System.out.print("-");
         }
-
         // Days rows
         // dayOfMonth for display in loop, 'j' is a pointer for display in console
-        // bug in library for February
-        int daysInMonth;
-        if(currentDateTime.getMonth() == Month.FEBRUARY){
-            daysInMonth = 28;
-            int year = currentDateTime.getYear();
-            if((year % 4 == 0  &&  year % 100 != 0 || year % 400 == 0)){
-                daysInMonth++;
-            }
-        }
-        else{
-            daysInMonth = getHowManyDaysInMonth();
-        }
-
+        int daysInMonth = getHowManyDaysInMonth();
         int dayOfMonth = 1;
         int pointerFirstDayOfMonth = getPointerFirstDayOfMonth();
         int numberOfLoops = pointerFirstDayOfMonth + daysInMonth - 1;
@@ -136,21 +151,6 @@ public class MyCalendar {
         }
     }
 
-    public int getHowManyDaysInMonth(){
-        if(currentDateTime.getMonthValue() == 1
-                || currentDateTime.getMonthValue() == 3
-                || currentDateTime.getMonthValue() == 5
-                || currentDateTime.getMonthValue() == 7
-                || currentDateTime.getMonthValue() == 8
-                || currentDateTime.getMonthValue() == 10
-                ||currentDateTime.getMonthValue() == 12){
-            return 31;
-        }
-        else{
-            return 30;
-        }
-    }
-
     public void displayDetails(){
         DateTimeFormatter formatterDateTime = DateTimeFormatter.ofPattern("\n\ndd/MM/yyyy HH:mm:ss");
 
@@ -168,7 +168,7 @@ public class MyCalendar {
         isAfterSalary(this.calendar);
     }
 
-    // others
+    // Others
     public static void whatPartOfDay(LocalTime currentTime){
         LocalTime midnight = LocalTime.parse("00:00:00");
         LocalTime morningStart = LocalTime.parse("06:00:00");
@@ -273,7 +273,7 @@ public class MyCalendar {
         return true;
     }
 
-    public static void isAfterSalary(Calendar cal){
+    public void isAfterSalary(Calendar cal){
         if(cal.get(Calendar.DAY_OF_MONTH) > 10){
             System.out.println("After salary.");
         }
@@ -282,7 +282,7 @@ public class MyCalendar {
         }
     }
 
-    public static String whatPartOfYear(Calendar cal){
+    public String whatPartOfYear(Calendar cal){
 
         if(cal.get(Calendar.MONTH) == Calendar.DECEMBER && cal.get(Calendar.DAY_OF_MONTH) >= 21
                 ||cal.get(Calendar.MONTH) == Calendar.MARCH && cal.get(Calendar.DAY_OF_MONTH) < 20
