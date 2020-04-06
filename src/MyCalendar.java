@@ -24,9 +24,17 @@ public class MyCalendar {
     private LocalTime currentTime = currentDateTime.toLocalTime();
     private Calendar calendar = Calendar.getInstance();
 
+    // getters
+    public LocalDateTime getCurrentDateTime() {
+        return currentDateTime;
+    }
 
+    public LocalTime getCurrentTime() {
+        return currentTime;
+    }
+
+    // display
     public void displayDetails(){
-        DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm:ss");
         DateTimeFormatter formatterDateTime = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
         System.out.println(currentDateTime.format(formatterDateTime));
@@ -43,6 +51,7 @@ public class MyCalendar {
         isAfterSalary(this.calendar);
     }
 
+    // others
     public static void whatPartOfDay(LocalTime currentTime){
         LocalTime midnight = LocalTime.parse("00:00:00");
         LocalTime morningStart = LocalTime.parse("06:00:00");

@@ -1,3 +1,7 @@
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 public class Loops {
 
     public void displayNumbers(){
@@ -69,6 +73,33 @@ public class Loops {
         System.out.println("\nwszystkie liczby oraz ich wartość modulo 10");
         for(int i=-20; i<=20; i++) {
             System.out.print(i + "%10 = " + i%10 + " ");
+        }
+    }
+
+    public void displayDateTimeLoop(LocalTime currentTime){
+        DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm:ss");
+        System.out.println("\n\nActual time: " + currentTime.format(formatterTime));
+        System.out.println("Hour:");
+        for(int i = 1; i <= currentTime.getHour(); i++){
+            System.out.print("*");
+            if(i % 10 == 0){
+                System.out.println();
+            }
+        }
+        System.out.println("\nMinutes:");
+        for(int i = 1; i <= currentTime.getMinute(); i++){
+            System.out.print("*");
+            if(i % 10 == 0){
+                System.out.println();
+            }
+        }
+
+        System.out.println("\nSeconds:");
+        for(int i = 1; i <= currentTime.getSecond(); i++){
+            System.out.print("*");
+            if(i % 10 == 0){
+                System.out.println();
+            }
         }
     }
 

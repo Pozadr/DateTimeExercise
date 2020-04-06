@@ -6,5 +6,5 @@ public class Main {
 
         Loops loopsExercises = new Loops();
         loopsExercises.displayNumbers();
-    }
+        loopsExercises.displayDateTimeLoop(myCalendar.getCurrentTime());    }
 }
